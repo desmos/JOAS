@@ -1,0 +1,21 @@
+===TODO=== Put your name next to each item once you have read it. Feel free to add useful tutorials/guides you feel we should all read.
+
+1.) Read up on the Guava collections. http://google-collections.googlecode.com/svn/trunk/javadoc/overview-summary.html Especially the Immutable collections. We should use these
+because they are thread safe, faster than their corresponding java collections, and take up less memory. Use @VisibleForTesting if you want to test a method that should otherwise be private and give it default visibility.
+http://code.google.com/p/guava-libraries/wiki/TenThingsAboutImmutableCollections
+Read:(Desmos,...)
+
+2.) http://developer.android.com/guide/basics/what-is-android.html and http://developer.android.com/guide/topics/fundamentals.html
+
+3.) Android activities. There should be one activity and one display per screen.
+
+http://developer.android.com/guide/topics/fundamentals/activities.html
+
+3.) http://developer.android.com/guide/topics/manifest/manifest-intro.html
+
+4.) http://download.oracle.com/javase/1.4.2/docs/api/java/lang/Thread.html
+
+5.) Basic game in it which actually has a bug in handling the activity lifecycle http://developer.android.com/resources/samples/LunarLander/src/com/example/android/lunarlander/LunarLander.html
+
+6.) Not sure how good it is but this looks interesting http://www.koonsolo.com/news/dewitters-gameloop/I'm laying out a basic ui thread and activity that hopefully will be done on friday so we can start working this weekend.
+
