@@ -3,6 +3,9 @@ package common.logging;
 import common.annotations.Nullable;
 import android.util.Log;
 
+/**
+ * @author sfraim
+ */
 public class AppLogger {
 
   private static int LOG_LEVEL = Log.VERBOSE;
