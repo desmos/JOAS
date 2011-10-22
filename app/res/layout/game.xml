@@ -15,4 +15,9 @@ android:layout_width="fill_parent"
 android:layout_height="wrap_content"
 android:text="Bomberman"
 />
+<ImageView
+android:id="@+id/imageView1"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:src="@drawable/fate" />
 </FrameLayout>
