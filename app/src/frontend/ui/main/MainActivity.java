@@ -2,7 +2,6 @@ package frontend.ui.main;
 
 import android.app.Activity;
 import android.os.Bundle;
-import org.apache.commons.logging.Log;
 
 public class MainActivity extends Activity
 {
