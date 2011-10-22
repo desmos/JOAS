@@ -5,7 +5,6 @@ import android.os.Bundle;
 import com.google.common.collect.ImmutableSet;
 import common.annotations.Nullable;
 import common.logging.AppLogger;
-import org.apache.commons.logging.Log;
 
 public class MainActivity extends Activity
 {
