@@ -20,7 +20,7 @@ public class MainActivity extends Activity
   }
 
   /**
-   * Use {@link Nullable} whenever a value can be null!
+   * Use {@link Nullable} whenever a value can be null.
    */
   @Nullable public String testEnvironment(@Nullable String testEnvironment) {
     return testEnvironment;
