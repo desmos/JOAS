@@ -1,6 +1,7 @@
 package frontend.ui.run;
 
 import static android.util.Log.INFO;
+import static android.util.Log.WARN;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static common.logging.AppLogger.log;
@@ -8,6 +9,7 @@ import static common.logging.AppLogger.logMethod;
 import static frontend.ui.run.GameThread.ThreadState.*;
 import static frontend.ui.run.GameThread.ThreadState.STATE_PAUSE;
 
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -27,6 +29,9 @@ public class GameThread {
     STATE_STOP,
     STATE_TERMINATED,
   }
+
+  private static final int FRAMES_PER_SECOND = 25;
+  private static final int SKIP_TICKS = 1000 / FRAMES_PER_SECOND;
 
 	private ThreadState threadState;
   private SurfaceHolder surfaceHolder;
@@ -86,7 +91,9 @@ public class GameThread {
         gameLoopFuture.get();
         setGameThreadState(STATE_TERMINATED);
 	      retry = false;
-	    } catch (Exception e) {
+	    } catch (CancellationException e) {
+        retry = false;
+      } catch (Exception e) {
 	      log(Log.ERROR, e.toString());
 	    }
     }
@@ -98,7 +105,7 @@ public class GameThread {
 	}
 
   /**
-   * Analogoes to Thread.isAlive(). Returns true if the thread has called run and has not currently executed.
+   * Analogous to Thread.isAlive(). Returns true if the thread has called run and has not currently executed.
    */
   public boolean isAlive() {
     return threadState != ThreadState.STATE_READY && threadState != ThreadState.STATE_TERMINATED;
@@ -112,15 +119,27 @@ public class GameThread {
 
 	private void doGameLoop() {
     logMethod();
-		while (runApp) {
+    while (runApp) {
 		  Canvas canvas = null;
 			try {
+        long frameStart = System.currentTimeMillis();
         doGameLogic(canvas);
+        applyBrakes(frameStart);
 			} catch (Exception e) {
         log(INFO, Log.getStackTraceString(e));
 			}
 		}
 	}
+
+  private void applyBrakes(long frameStart) throws InterruptedException {
+    long frameEnd = System.currentTimeMillis();
+    long sleepTime = SKIP_TICKS - (frameEnd - frameStart);
+    if (sleepTime >= 0) {
+      Thread.sleep(sleepTime);
+    } else {
+      log(WARN, "We are running behind the fixed framerate.");
+    }
+  }
 
   private void doGameLogic(Canvas canvas) throws Exception {
     logMethod();
