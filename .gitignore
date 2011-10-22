@@ -1,0 +1,9 @@
+app*/.idea
+app*/bin
+app*/out
+app*/local.properties
+app*/App*.iml
+app*/build.xml
+app/.classpath
+app/.project
+app/.settings/
