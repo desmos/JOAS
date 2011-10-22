@@ -1,26 +1,30 @@
 package common.logging;
 
+import java.util.Map;
+
+import com.google.common.collect.ImmutableMap;
 import common.annotations.Nullable;
 import android.util.Log;
 
 /**
+ * More fine grained logging levels will be set in config files and retrieved using android isLoggable
+ *
  * @author sfraim
  */
 public class AppLogger {
 
-  private static int LOG_LEVEL = Log.VERBOSE;
+  // TODO(sfraim) swtich to using a local.prop for logging so isLoggable can be overriden per module
+  private static int GLOBAL_LOG_LEVEL = Log.VERBOSE;
 
   /**
    * Logs the specified message with the tag set to the name of the calling class.
    */
   public static void log(int level, String message) {
-    if (shouldLog(level)) {
-      final Throwable t = new Throwable();
-      final StackTraceElement methodCaller = t.getStackTrace()[1];
+    final Throwable t = new Throwable();
+    final StackTraceElement methodCaller = t.getStackTrace()[1];
 
-      String tag = shortClassNameOf(methodCaller.getClassName());
-      log(level, tag, message);
-    }
+    String tag = shortClassNameOf(methodCaller.getClassName());
+    log(level, tag, message);
   }
 
   /**
@@ -29,28 +33,20 @@ public class AppLogger {
    * Tag is the name of the calling class.
    */
   public static void logMethod() {
-    if (shouldLog(Log.INFO)) {
-      final Throwable t = new Throwable();
-      final StackTraceElement methodCaller = t.getStackTrace()[1];
-      String tag = shortClassNameOf(methodCaller.getClassName());
-      String message = methodCaller.getMethodName();
-      log(Log.INFO, tag, message);
-    }
+    final Throwable t = new Throwable();
+    final StackTraceElement methodCaller = t.getStackTrace()[1];
+    String tag = shortClassNameOf(methodCaller.getClassName());
+    String message = methodCaller.getMethodName();
+    log(Log.INFO, tag, message);
   }
 
   /**
    * Log the specified message under the given tag at the specified priority level.
    */
   public static void log(int level, String tag, String message) {
-    if (shouldLog(level)) {
-      if (Log.isLoggable(tag, level)) {
-        Log.println(level, tag, message);
-      }
+    if (Log.isLoggable(tag, level) && GLOBAL_LOG_LEVEL <= level) {
+      Log.println(level, tag, message);
     }
-  }
-
-  private static boolean shouldLog(int level) {
-    return LOG_LEVEL <= level;
   }
 
   private static String shortClassNameOf(String fullName) {
