@@ -33,20 +33,20 @@ public class GameThread {
   private static final int FRAMES_PER_SECOND = 25;
   private static final int SKIP_TICKS = 1000 / FRAMES_PER_SECOND;
 
-	private ThreadState threadState;
+  private ThreadState threadState;
   private SurfaceHolder surfaceHolder;
   private GameView gameView;
   private ExecutorService executorService;
   private Future<?> gameLoopFuture;
-	private boolean runApp;
+  private boolean runApp;
 
-	protected GameThread(SurfaceHolder surfaceHolder, GameView gameView) {
+  protected GameThread(SurfaceHolder surfaceHolder, GameView gameView) {
     logMethod();
-		this.surfaceHolder = checkNotNull(surfaceHolder, "surfaceHolder");
-		this.gameView = checkNotNull(gameView, "gameView");
+    this.surfaceHolder = checkNotNull(surfaceHolder, "surfaceHolder");
+    this.gameView = checkNotNull(gameView, "gameView");
     executorService = Executors.newSingleThreadExecutor();
     this.runApp = false;
-		threadState = STATE_READY;
+    threadState = STATE_READY;
   }
 
   public void startGameThread() {
@@ -86,23 +86,23 @@ public class GameThread {
     checkState(runApp && gameLoopFuture != null, "App has already been shutdown.");
     runApp = false;
     boolean retry = true;
-	  while (retry) {
-	    try {
+    while (retry) {
+      try {
         gameLoopFuture.get();
         setGameThreadState(STATE_TERMINATED);
-	      retry = false;
-	    } catch (CancellationException e) {
+        retry = false;
+      } catch (CancellationException e) {
         retry = false;
       } catch (Exception e) {
-	      log(Log.ERROR, e.toString());
-	    }
+        log(Log.ERROR, e.toString());
+      }
     }
   }
 
-	public ThreadState getGameThreadState() {
+  public ThreadState getGameThreadState() {
     logMethod();
-	  return threadState;
-	}
+    return threadState;
+  }
 
   /**
    * Analogous to Thread.isAlive(). Returns true if the thread has called run and has not currently executed.
@@ -117,19 +117,19 @@ public class GameThread {
     }
   }
 
-	private void doGameLoop() {
+  private void doGameLoop() {
     logMethod();
     while (runApp) {
-		  Canvas canvas = null;
-			try {
+      Canvas canvas = null;
+      try {
         long frameStart = System.currentTimeMillis();
         doGameLogic(canvas);
         applyBrakes(frameStart);
-			} catch (Exception e) {
+      } catch (Exception e) {
         log(INFO, Log.getStackTraceString(e));
-			}
-		}
-	}
+      }
+    }
+  }
 
   private void applyBrakes(long frameStart) throws InterruptedException {
     long frameEnd = System.currentTimeMillis();
