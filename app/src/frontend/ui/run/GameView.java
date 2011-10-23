@@ -2,7 +2,6 @@ package frontend.ui.run;
 
 import static com.google.common.base.Preconditions.checkState;
 import static common.logging.AppLogger.logMethod;
-import static frontend.ui.run.GameThread.ThreadState.STATE_READY;
 import static frontend.ui.run.GameThread.ThreadState.STATE_TERMINATED;
 
 import android.content.Context;

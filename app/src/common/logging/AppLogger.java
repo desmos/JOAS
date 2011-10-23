@@ -1,8 +1,5 @@
 package common.logging;
 
-import java.util.Map;
-
-import com.google.common.collect.ImmutableMap;
 import common.annotations.Nullable;
 import android.util.Log;
 
