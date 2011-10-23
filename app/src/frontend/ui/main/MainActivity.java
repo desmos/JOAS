@@ -1,18 +1,18 @@
 package frontend.ui.main;
 
 import static common.logging.AppLogger.logMethod;
-
 import android.app.Activity;
 import android.os.Bundle;
+
 import com.google.common.collect.ImmutableSet;
 import common.annotations.Nullable;
 import common.logging.AppLogger;
-import frontend.ui.run.GameThread;
+
 import frontend.ui.run.GameView;
 
 /**
  * http://developer.android.com/reference/android/app/Activity.html
- *
+ * 
  * @author sfraim
  */
 public class MainActivity extends Activity {
@@ -26,7 +26,8 @@ public class MainActivity extends Activity {
     gameView = (GameView) findViewById(R.id.gameView);
 
     // Use Immutable collections everywhere!
-    ImmutableSet environmentSet = ImmutableSet.of(testEnvironment("Test that you have guava setup correctly"));
+    ImmutableSet<String> environmentSet = ImmutableSet
+        .of(testEnvironment("Test that you have guava setup correctly"));
     // Use AppLogger it is better than {@link Log}
     AppLogger.log(android.util.Log.INFO, environmentSet.toString());
   }
@@ -69,7 +70,8 @@ public class MainActivity extends Activity {
   /**
    * Use {@link Nullable} whenever a value can be null.
    */
-  @Nullable public String testEnvironment(@Nullable String testEnvironment) {
+  @Nullable
+  public String testEnvironment(@Nullable String testEnvironment) {
     return testEnvironment;
   }
 }
