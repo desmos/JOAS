@@ -10,32 +10,35 @@ import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+/**
+ * @author sfraim
+ */
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
-	private GameThread gameThread;
-	
-	public GameView(Context context, AttributeSet attrs) {
+  private GameThread gameThread;
+  
+  public GameView(Context context, AttributeSet attrs) {
     super(context, attrs);
     logMethod();
 
     SurfaceHolder holder = getHolder();
     holder.addCallback(this);
     this.gameThread = new GameThread(holder, this);
-	}
+  }
 
   public GameThread getGameThread() {
     return gameThread;
   }
 
   @Override
-	public void surfaceCreated(SurfaceHolder holder) {
-	  logMethod();
-	  checkState(!gameThread.isAlive(), "The GameThread should not be alive when the surface is called."
+  public void surfaceCreated(SurfaceHolder holder) {
+    logMethod();
+    checkState(!gameThread.isAlive(), "The GameThread should not be alive when the surface is called."
         + "is created. State was " + gameThread.getGameThreadState());
     if (gameThread.getGameThreadState() == STATE_TERMINATED) {
       gameThread = new GameThread(getHolder(), this);
     }
     gameThread.startGameThread();
-	}
+  }
 
   @Override
   public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
@@ -43,8 +46,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
   }
   
   @Override
-	public void surfaceDestroyed(SurfaceHolder holder) {
-	  logMethod();
-	  gameThread.terminateGameThread();
-	}
+  public void surfaceDestroyed(SurfaceHolder holder) {
+    logMethod();
+    gameThread.terminateGameThread();
+  }
 }
