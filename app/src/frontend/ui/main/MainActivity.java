@@ -7,7 +7,6 @@ import android.os.Bundle;
 import com.google.common.collect.ImmutableSet;
 import common.annotations.Nullable;
 import common.logging.AppLogger;
-import frontend.ui.run.GameThread;
 import frontend.ui.run.GameView;
 
 /**
@@ -26,7 +25,7 @@ public class MainActivity extends Activity {
     gameView = (GameView) findViewById(R.id.gameView);
 
     // Use Immutable collections everywhere!
-    ImmutableSet environmentSet = ImmutableSet.of(testEnvironment("Test that you have guava setup correctly"));
+    ImmutableSet<String> environmentSet = ImmutableSet.of(testEnvironment("Test that you have guava setup correctly"));
     // Use AppLogger it is better than {@link Log}
     AppLogger.log(android.util.Log.INFO, environmentSet.toString());
   }
