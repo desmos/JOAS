@@ -6,8 +6,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static common.logging.AppLogger.log;
 import static common.logging.AppLogger.logMethod;
-import static frontend.ui.run.GameThread.ThreadState.*;
 import static frontend.ui.run.GameThread.ThreadState.STATE_PAUSE;
+import static frontend.ui.run.GameThread.ThreadState.STATE_READY;
+import static frontend.ui.run.GameThread.ThreadState.STATE_RUN;
+import static frontend.ui.run.GameThread.ThreadState.STATE_STOP;
+import static frontend.ui.run.GameThread.ThreadState.STATE_TERMINATED;
 
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutorService;
@@ -23,11 +26,7 @@ import android.view.SurfaceHolder;
  */
 public class GameThread {
   public static enum ThreadState {
-    STATE_READY,
-    STATE_RUN,
-    STATE_PAUSE,
-    STATE_STOP,
-    STATE_TERMINATED,
+    STATE_READY, STATE_RUN, STATE_PAUSE, STATE_STOP, STATE_TERMINATED,
   }
 
   private static final int FRAMES_PER_SECOND = 25;
@@ -63,7 +62,8 @@ public class GameThread {
 
   public void resume() {
     logMethod();
-    // We can resume a thread from any state {@see http://developer.android.com/reference/android/app/Activity.html}
+    // We can resume a thread from any state {@see
+    // http://developer.android.com/reference/android/app/Activity.html}
     if (threadState != ThreadState.STATE_READY) {
       setGameThreadState(STATE_RUN);
     }
@@ -77,7 +77,8 @@ public class GameThread {
   public void stop() {
     logMethod();
     setGameThreadState(STATE_STOP);
-    // TODO(sfraim) This assumes views are recreated (and the thread) as part of the activitry lifecycle?
+    // TODO(sfraim) This assumes views are recreated (and the thread) as part of
+    // the activitry lifecycle?
     // If this assumption is invalid, this may may need to be changed.
     gameLoopFuture.cancel(true /* mayInterruptIfRunning */);
   }
@@ -105,7 +106,8 @@ public class GameThread {
   }
 
   /**
-   * Analogous to Thread.isAlive(). Returns true if the thread has called run and has not currently executed.
+   * Analogous to Thread.isAlive(). Returns true if the thread has called run
+   * and has not currently executed.
    */
   public boolean isAlive() {
     return threadState != ThreadState.STATE_READY && threadState != ThreadState.STATE_TERMINATED;
@@ -144,17 +146,17 @@ public class GameThread {
   private void doGameLogic(Canvas canvas) throws Exception {
     logMethod();
     switch (threadState) {
-      case STATE_RUN :
-        draw();
-        break;
-      case STATE_PAUSE:
-        // Save cpu-cycles if the game logic is paused.
-        Thread.sleep(100);
-        break;
-      case STATE_STOP:
-        
-      default:
-        break;
+    case STATE_RUN:
+      draw();
+      break;
+    case STATE_PAUSE:
+      // Save cpu-cycles if the game logic is paused.
+      Thread.sleep(100);
+      break;
+    case STATE_STOP:
+
+    default:
+      break;
     }
   }
 
