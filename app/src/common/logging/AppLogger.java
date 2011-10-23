@@ -1,23 +1,24 @@
 package common.logging;
 
-import java.util.Map;
-
-import com.google.common.collect.ImmutableMap;
-import common.annotations.Nullable;
 import android.util.Log;
 
+import common.annotations.Nullable;
+
 /**
- * More fine grained logging levels will be set in config files and retrieved using android isLoggable
- *
+ * More fine grained logging levels will be set in config files and retrieved
+ * using android isLoggable
+ * 
  * @author sfraim
  */
 public class AppLogger {
 
-  // TODO(sfraim) swtich to using a local.prop for logging so isLoggable can be overriden per module
+  // TODO(sfraim) swtich to using a local.prop for logging so isLoggable can be
+  // overriden per module
   private static int GLOBAL_LOG_LEVEL = Log.VERBOSE;
 
   /**
-   * Logs the specified message with the tag set to the name of the calling class.
+   * Logs the specified message with the tag set to the name of the calling
+   * class.
    */
   public static void log(int level, String message) {
     final Throwable t = new Throwable();
@@ -29,7 +30,7 @@ public class AppLogger {
 
   /**
    * Logs a {@link Log.INFO} message containing the calling method's name.
-   *
+   * 
    * Tag is the name of the calling class.
    */
   public static void logMethod() {
@@ -41,7 +42,8 @@ public class AppLogger {
   }
 
   /**
-   * Log the specified message under the given tag at the specified priority level.
+   * Log the specified message under the given tag at the specified priority
+   * level.
    */
   public static void log(int level, String tag, String message) {
     if (Log.isLoggable(tag, level) && GLOBAL_LOG_LEVEL <= level) {
@@ -53,7 +55,8 @@ public class AppLogger {
     return last(fullName.split("\\."));
   }
 
-  @Nullable private static <T> T last(T[] arr) {
+  @Nullable
+  private static <T> T last(T[] arr) {
     return arr.length > 0 ? arr[arr.length - 1] : null;
   }
 }
